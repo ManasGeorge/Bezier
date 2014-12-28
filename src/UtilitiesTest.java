@@ -13,6 +13,6 @@ public class UtilitiesTest {
                 assertEquals(i + "C" + j + " should equal "
                 + i + "C" + (i-j),Utilities.binomial(i,j), Utilities.binomial(i,i-j));
             }
-        }
+    }
     }
 }
