@@ -1,4 +1,4 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class UtilitiesTest {
 
@@ -18,11 +18,11 @@ public class UtilitiesTest {
 
     @org.junit.Test
     public void testBezier() throws Exception {
-        for (float t = 0; t < 10; t += 0.1){
-            assertEquals("Bezier(2,t) must equal Bezier2(t)",Utilities.bezier(2,t),Utilities.bezier2(t),0.0001);
+        for (double t = 0; t < 10; t += 0.1){
+            assertEquals("Bezier(2,t) must equal Bezier2(t)", Utilities.bezier(2, t), Utilities.bezier2(t), 0.0001);
         }
 
-        for (float t = 0; t < 10; t += 0.1){
+        for (double t = 0; t < 10; t += 0.1){
             assertEquals("Bezier(3,t) must equal Bezier3(t)",Utilities.bezier(3,t),Utilities.bezier3(t),0.0001);
         }
     }
