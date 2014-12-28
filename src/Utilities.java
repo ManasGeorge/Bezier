@@ -26,4 +26,20 @@ public class Utilities {
 
         return pascal.get(n).get(k);
     }
+
+    static double bezier(int n,double t){
+        int sum = 0;
+        for (int i = 0; i < n; i++){
+            sum += binomial(n,i) * Math.pow(1-t,i) * Math.pow(t,n-i);
+        }
+        return sum;
+    }
+
+    static double bezier2(double t){
+        return t*t + 2*t*(1-t) + (1-t) * (1-t);
+    }
+
+    static double bezier3(double t){
+        return t*t*t + 3*t*t*(1-t) + 3*t*(1-t)*(1-t) + (1-t)*(1-t)*(1-t);
+    }
 }
