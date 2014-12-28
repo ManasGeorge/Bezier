@@ -25,10 +25,8 @@ public class Main extends Application {
         c.setOnMousePressed(e -> {
             int index = controlPointIndex(e.getX(), e.getY());
             if(index == -1) {
-                gc.setFill(Color.WHITE);
-                gc.fillRect(0, 0, WIDTH, HEIGHT);
                 addControlPoint(e.getX(), e.getY());
-                drawCurve(gc, xWeights, yWeights);
+                drawCurve(gc);
                 selectedControlPoint[0] = -1;
             } else {
                 selectedControlPoint[0] = index;
@@ -39,7 +37,8 @@ public class Main extends Application {
             int i = selectedControlPoint[0];
             if (i != -1){
                 xWeights.set(i,e.getX());
-                yWeights.set(i,e.getY());
+                yWeights.set(i, e.getY());
+                drawCurve(gc);
             }
         });
 
@@ -64,7 +63,8 @@ public class Main extends Application {
         return -1;
     }
 
-    private void drawCurve(GraphicsContext gc, ArrayList<Double> xWeights, ArrayList<Double> yWeights){
+    private void drawCurve(GraphicsContext gc){
+        clear(gc);
         gc.beginPath();
         gc.setStroke(Color.BLACK);
         gc.moveTo(xWeights.get(0), yWeights.get(0));
@@ -73,16 +73,33 @@ public class Main extends Application {
                     Utilities.weightedBezier(yWeights.size()-1, t, yWeights));
         }
 
-        for(int i = 0; i < xWeights.size(); i++){
-            gc.setFill(Color.RED);
-            gc.fillOval(xWeights.get(i)-RADIUS, yWeights.get(i)-RADIUS, 2*RADIUS, 2*RADIUS);
-        }
+        drawControlPoints(gc);
 
         gc.stroke();
         gc.closePath();
     }
 
+    private void drawControlPoints(GraphicsContext gc){
+        gc.setFill(Color.BLUE);
+        gc.fillOval(xWeights.get(0) - RADIUS, yWeights.get(0) - RADIUS, 2 * RADIUS, 2 * RADIUS);
+
+        for(int i = 1; i < xWeights.size()-1; i++){
+            gc.setFill(Color.RED);
+            gc.fillOval(xWeights.get(i)-RADIUS, yWeights.get(i)-RADIUS, 2*RADIUS, 2*RADIUS);
+        }
+
+        gc.setFill(Color.BLUE);
+        gc.fillOval(xWeights.get(xWeights.size()-1)-RADIUS,
+                yWeights.get(yWeights.size()-1)-RADIUS,
+                2*RADIUS, 2*RADIUS);
+    }
+
     private double distance(double x, double y, double a, double b){
         return Math.sqrt(Math.pow(x-a,2) + Math.pow(y-b,2));
+    }
+
+    private void clear(GraphicsContext gc){
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0, 0, WIDTH, HEIGHT);
     }
 }
